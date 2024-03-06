@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     float mXRotation = 0.0f;
     float mYRotation = 0.0f;
 
+    private Animator mPlayerAnimator;
+    public GameObject mHands;
+
     Rigidbody mRigidBody = null;
 
     float mSpeed = 3.0f;
@@ -21,12 +24,32 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mRigidBody = GetComponent<Rigidbody>();
+        mPlayerAnimator = mHands.GetComponent<Animator>();
+
     }
+
+    private void Update()
+    {
+        Look();
+        Move();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            mPlayerAnimator.speed = 1;
+            mPlayerAnimator.Play("ANIM_HandSmack");
+        }
+        else if (Input.GetMouseButtonUp(0)) {
+            mPlayerAnimator.speed = 0;
+            mPlayerAnimator.Play("ANIM_HandSmack", 0, 0);
+            mPlayerAnimator.Update(0);
+        }
+    }
+
     void Look()
     {
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mXSensitivityStrength;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * mYSensitivityStrength;
-       
+
         mYRotation += mouseX;
         mXRotation -= mouseY;
 
@@ -38,11 +61,6 @@ public class Player : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        Look();
-        Move();
-    }
     void Move()
     {
         if (mRigidBody != null)
@@ -55,16 +73,11 @@ public class Player : MonoBehaviour
                 Vector3 movementDirection = transform.TransformDirection(inputVector);
 
                 mRigidBody.velocity = movementDirection * mSpeed;
-                Debug.Log("move");
             }
             else
             {
                 mRigidBody.velocity = new Vector3(0, mRigidBody.velocity.y, 0);
-                Debug.Log("reset");
             }
-
-
-
         }
     }
 }
