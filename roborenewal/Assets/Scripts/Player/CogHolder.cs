@@ -16,12 +16,22 @@ public class CogHolder : MonoBehaviour
         Destroy(cog);
         OnUpdateCogHolder(mCurrentHolding);
     }
+    public void RemoveCog()
+    {
+        mCurrentHolding -= 1;
+        OnUpdateCogHolder(mCurrentHolding);
+        // MT: Maybe add a particle here or something..
 
+    }
     public bool IsFull()
     {
         return mCurrentHolding >= mLimit;
     }
 
+    public bool IsEmpty()
+    {
+        return mCurrentHolding <= 0;
+    }
     public int GetLimit()
     {
         return mLimit;
