@@ -18,6 +18,10 @@ public class HealthComponent : MonoBehaviour
     public Action OnDeath;
 
 
+    public float GetHealthPercent()
+    {
+        return (mCurrentHealth / mMaxHealth) * 100;
+    }
     public float GetCurrentHealth()
     {
         return mCurrentHealth;
