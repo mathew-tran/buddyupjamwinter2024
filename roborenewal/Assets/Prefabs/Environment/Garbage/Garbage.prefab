@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3866015188777590213}
   - component: {fileID: 4937631476160923720}
   - component: {fileID: 4268008850069312952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Garbage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 5234250554277230545}
   - component: {fileID: 2792859211310284223}
   - component: {fileID: 5557420974285439241}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Garbage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,6 +156,8 @@ MonoBehaviour:
   mTimer: {fileID: 2792859211310284223}
   mHealthComponent: {fileID: 5234250554277230545}
   mAnimator: {fileID: 5557420974285439241}
+  mCogPrefab: {fileID: 8310788414250338415, guid: 82e89ab0cab51ac4599b51313412322a, type: 3}
+  mCogsToDrop: 20
 --- !u!114 &5234250554277230545
 MonoBehaviour:
   m_ObjectHideFlags: 0

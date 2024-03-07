@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,6 +9,12 @@ public class Garbage : MonoBehaviour
     public Timer mTimer;
     public HealthComponent mHealthComponent;
     public Animator mAnimator;
+    
+    public GameObject mCogPrefab;
+
+    private int mStep = 0;
+    public int mCogsToDrop = 10;
+
     private void Start()
     {
         mHealthComponent.OnTakeDamage += OnGarbageTakeDamage;
@@ -26,10 +33,48 @@ public class Garbage : MonoBehaviour
         mTimer.StartTimer();
         mAnimator.Play("ANIM_GarbageHit");
         mAnimator.speed = 3;
+
+        float percent = mHealthComponent.GetHealthPercent();
+        if (mStep == 0)
+        {
+            if (percent < 90)
+            {
+                mStep += 1;
+                int amountOfCogsToDrop = mCogsToDrop / 4;
+                for(int i = 0; i < amountOfCogsToDrop; ++i)
+                {
+                    SpawnCog();
+                }
+                mCogsToDrop -= amountOfCogsToDrop;
+            }
+        }
+        if (mStep == 1)
+        {
+            if (percent <= 35)
+            {
+                mStep += 1;
+                int amountOfCogsToDrop = mCogsToDrop / 4;
+                for (int i = 0; i < amountOfCogsToDrop; ++i)
+                {
+                    SpawnCog();
+                }
+                mCogsToDrop -= amountOfCogsToDrop;
+            }
+        }
+
     }
 
+    private void SpawnCog()
+    {
+        Instantiate(mCogPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+    }
     private void OnGarbageDeath()
     {
+        for(int i = 0; i < mCogsToDrop; ++i)
+        {
+            SpawnCog();
+        }
+
         Destroy(this.gameObject, .2f);
     }
 

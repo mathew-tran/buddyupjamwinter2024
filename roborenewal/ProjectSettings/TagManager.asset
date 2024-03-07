@@ -5,14 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hand
+  - Garbage
+  - Cog
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Pickups
   - Water
   - UI
-  - 
+  - Garbage
   - 
   - 
   - 

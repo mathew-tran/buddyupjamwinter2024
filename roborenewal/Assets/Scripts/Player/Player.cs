@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
 
     public Rigidbody mRigidBody;
+    public CogHolder mCogHolder;
 
     private PlayerHand[] mHands;
 
@@ -101,5 +102,17 @@ public class Player : MonoBehaviour
                 mRigidBody.velocity = new Vector3(0, mRigidBody.velocity.y, 0);
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Cog")
+        {
+            if (mCogHolder.IsFull() == false)
+            {
+                mCogHolder.TakeCog(collision.gameObject);
+            }
+        }
+       
     }
 }
