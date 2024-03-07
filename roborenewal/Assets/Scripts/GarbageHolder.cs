@@ -14,7 +14,6 @@ public class GarbageHolder : MonoBehaviour
 
     void Awake()
     {
-        GameManager.mInstance.mGarbageHolderRef = this;
 
         Garbage[] allGarbage = GetComponentsInChildren<Garbage>();
 
