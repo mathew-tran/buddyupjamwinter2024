@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,9 @@ public class GarbageHolder : MonoBehaviour
     public float TotalHealth = 0.0f;
     public float CurrentHealth = 0.0f;
 
-    void Start()
+    public event Action<float> OnHealthUpdate;
+
+    void Awake()
     {
         GameManager.mInstance.mGarbageHolderRef = this;
 
@@ -28,7 +31,16 @@ public class GarbageHolder : MonoBehaviour
     private void OnGarbageDamageTaken(float amount)
     {
         CurrentHealth -= amount;
-        Debug.Log(CurrentHealth);
+        OnHealthUpdate(CurrentHealth);
+    }
+
+    public float GetMaxHealth()
+    {
+        return TotalHealth;
+    }
+    public float GetCurrentHealth()
+    {
+        return CurrentHealth;
     }
 
 }
