@@ -12,10 +12,11 @@ public class Player : MonoBehaviour
     float mXRotation = 0.0f;
     float mYRotation = 0.0f;
 
-    private Animator mPlayerAnimator;
-    public GameObject mHands;
+    public Animator mPlayerAnimator;
+    public Camera mCamera;
 
-    Rigidbody mRigidBody = null;
+
+    public Rigidbody mRigidBody;
 
     float mSpeed = 3.0f;
 
@@ -23,8 +24,8 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        mRigidBody = GetComponent<Rigidbody>();
-        mPlayerAnimator = mHands.GetComponent<Animator>();
+
+        StopAnimation();
 
     }
 
@@ -35,16 +36,25 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            mPlayerAnimator.speed = 1;
-            mPlayerAnimator.Play("ANIM_HandSmack");
+            StartAnimation();
         }
         else if (Input.GetMouseButtonUp(0)) {
-            mPlayerAnimator.speed = 0;
-            mPlayerAnimator.Play("ANIM_HandSmack", 0, 0);
-            mPlayerAnimator.Update(0);
+            StopAnimation();
         }
     }
 
+    void StartAnimation()
+    {
+        mPlayerAnimator.speed = 1;
+        mPlayerAnimator.Play("ANIM_HandSmack");
+    }
+
+    void StopAnimation()
+    {
+        mPlayerAnimator.speed = 0;
+        mPlayerAnimator.Play("ANIM_HandSmack", 0, 0);
+        mPlayerAnimator.Update(0);
+    }
     void Look()
     {
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mXSensitivityStrength;
@@ -53,11 +63,13 @@ public class Player : MonoBehaviour
         mYRotation += mouseX;
         mXRotation -= mouseY;
 
-        mXRotation = Mathf.Clamp(mXRotation, -90f, 90f);
+        mXRotation = Mathf.Clamp(mXRotation, -15, 30f);
 
         transform.rotation = Quaternion.Euler(0f, mYRotation, 0f);
 
         // MT: Probably want to apply mXRotation to camera instead of player. So you can look up and down.
+        mCamera.transform.rotation = Quaternion.Euler(mXRotation, mYRotation, 0f);
+        Debug.Log(mXRotation);
 
     }
 
