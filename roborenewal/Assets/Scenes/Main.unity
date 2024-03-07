@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc80069d94dfb345a2702f400dcf370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mGarbageHolderRef: {fileID: 0}
+  mGarbageHolderRef: {fileID: 948756791}
 --- !u!4 &1371228086
 Transform:
   m_ObjectHideFlags: 0
@@ -1336,6 +1336,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1371228086}
+  - {fileID: 948756792}
   - {fileID: 309605026}
   - {fileID: 327837987}
   - {fileID: 1189151823}
@@ -1344,5 +1345,4 @@ SceneRoots:
   - {fileID: 1052485558}
   - {fileID: 662409089}
   - {fileID: 29924616}
-  - {fileID: 948756792}
   - {fileID: 195175871}
