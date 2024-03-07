@@ -16,8 +16,11 @@ public class Garbage : MonoBehaviour
         OnTimerTimeout();
     }
 
-
-    private void OnGarbageTakeDamage()
+    public HealthComponent GetHealthComponent()
+    {
+        return mHealthComponent;
+    }
+    private void OnGarbageTakeDamage(float damageTaken)
     {
         mHealthComponent.mbCanTakeDamage = false;
         mTimer.StartTimer();
@@ -39,7 +42,6 @@ public class Garbage : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.tag == "Hand")
         {
             if (other.gameObject.GetComponent<PlayerHand>().IsActive())

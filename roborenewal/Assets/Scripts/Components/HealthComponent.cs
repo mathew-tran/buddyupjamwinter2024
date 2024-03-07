@@ -14,14 +14,23 @@ public class HealthComponent : MonoBehaviour
     private bool mbIsAlive = true;
     public bool mbCanTakeDamage = true;
 
-    public Action OnTakeDamage;
+    public Action<float> OnTakeDamage;
     public Action OnDeath;
 
-    public float MCurrentHealth { get => mCurrentHealth; set => mCurrentHealth = value; }
+
+    public float GetCurrentHealth()
+    {
+        return mCurrentHealth;
+    }
+
+    public float GetMaxHealth()
+    {
+        return mMaxHealth;
+    }
 
     public void Start()
     {
-        MCurrentHealth = mMaxHealth;
+        mCurrentHealth = mMaxHealth;
         mbIsAlive = true;
     }
 
@@ -32,9 +41,15 @@ public class HealthComponent : MonoBehaviour
             return;
         }
 
-        MCurrentHealth -= amount;
-        OnTakeDamage();
-        if (MCurrentHealth <= 0.0)
+        mCurrentHealth -= amount;
+
+
+        if (mCurrentHealth < 0)
+        {
+            amount += mCurrentHealth;
+        }
+        OnTakeDamage(amount);
+        if (mCurrentHealth <= 0.0)
         {
             mbIsAlive = false;
             OnDeath();
