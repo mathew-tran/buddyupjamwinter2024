@@ -27,6 +27,15 @@ public class Timer : MonoBehaviour
         mProgress = mRate;
         bIsRunning = true;
     }
+    
+    public void ResumeTimer()
+    {
+        bIsRunning = true;
+    }
+    public void StopTimer()
+    {
+        bIsRunning = false;
+    }
 
     private void Update()
     {
