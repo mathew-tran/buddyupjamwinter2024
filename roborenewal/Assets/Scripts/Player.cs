@@ -18,13 +18,15 @@ public class Player : MonoBehaviour
 
     public Rigidbody mRigidBody;
 
+    private PlayerHand[] mHands;
+
     float mSpeed = 3.0f;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        mHands = GetComponentsInChildren<PlayerHand>();
         StopAnimation();
 
     }
@@ -47,6 +49,11 @@ public class Player : MonoBehaviour
     {
         mPlayerAnimator.speed = 1;
         mPlayerAnimator.Play("ANIM_HandSmack");
+
+        foreach (var hand in mHands) {
+            hand.SetActive(true);
+        }
+
     }
 
     void StopAnimation()
@@ -54,6 +61,11 @@ public class Player : MonoBehaviour
         mPlayerAnimator.speed = 0;
         mPlayerAnimator.Play("ANIM_HandSmack", 0, 0);
         mPlayerAnimator.Update(0);
+
+        foreach (var hand in mHands)
+        {
+            hand.SetActive(false);
+        }
     }
     void Look()
     {
@@ -67,9 +79,7 @@ public class Player : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0f, mYRotation, 0f);
 
-        // MT: Probably want to apply mXRotation to camera instead of player. So you can look up and down.
         mCamera.transform.rotation = Quaternion.Euler(mXRotation, mYRotation, 0f);
-        Debug.Log(mXRotation);
 
     }
 
