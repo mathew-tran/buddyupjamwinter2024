@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    static float mXSensitivityStrength = 300.0f;
-    static float mYSensitivityStrength = 300.0f;
+    static float mXSensitivityStrength = 15.0f;
+    static float mYSensitivityStrength = 15.0f;
 
     float mXRotation = 0.0f;
     float mYRotation = 0.0f;
