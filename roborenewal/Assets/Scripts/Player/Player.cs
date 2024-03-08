@@ -7,13 +7,13 @@ public class Player : MonoBehaviour
 {
     static float mXSensitivityStrength = 300.0f;
     static float mYSensitivityStrength = 300.0f;
-    // Start is called before the first frame update
 
     float mXRotation = 0.0f;
     float mYRotation = 0.0f;
 
     public Animator mPlayerAnimator;
     public Camera mCamera;
+    private PlayerInputActions inputActions;
 
 
     public Rigidbody mRigidBody;
@@ -21,15 +21,19 @@ public class Player : MonoBehaviour
 
     private PlayerHand[] mHands;
 
-    float mSpeed = 3.0f;
+    private float mSpeed = 3.0f;
 
-    void Start()
+    private bool isCleaning = false;
+
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mHands = GetComponentsInChildren<PlayerHand>();
         StopAnimation();
 
+        inputActions = new PlayerInputActions();
+        inputActions.Enable();
     }
 
     private void Update()
@@ -37,17 +41,18 @@ public class Player : MonoBehaviour
         Look();
         Move();
 
-        if (Input.GetMouseButtonDown(0))
+        if (inputActions.Player.Clean.IsPressed() && !isCleaning)
         {
             StartAnimation();
         }
-        else if (Input.GetMouseButtonUp(0)) {
+        else if (!inputActions.Player.Clean.IsPressed() && isCleaning) {
             StopAnimation();
         }
     }
 
     void StartAnimation()
     {
+        isCleaning = true;
         mPlayerAnimator.speed = 1;
         mPlayerAnimator.Play("ANIM_HandSmack");
 
@@ -59,6 +64,7 @@ public class Player : MonoBehaviour
 
     void StopAnimation()
     {
+        isCleaning = false;
         mPlayerAnimator.speed = 0;
         mPlayerAnimator.Play("ANIM_HandSmack", 0, 0);
         mPlayerAnimator.Update(0);
@@ -70,8 +76,8 @@ public class Player : MonoBehaviour
     }
     void Look()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mXSensitivityStrength;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * mYSensitivityStrength;
+        float mouseX = inputActions.Player.Look.ReadValue<Vector2>().x * Time.deltaTime * mXSensitivityStrength;
+        float mouseY = inputActions.Player.Look.ReadValue<Vector2>().y * Time.deltaTime * mYSensitivityStrength;
 
         mYRotation += mouseX;
         mXRotation -= mouseY;
@@ -88,7 +94,7 @@ public class Player : MonoBehaviour
     {
         if (mRigidBody != null)
         {
-            Vector3 inputVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 inputVector = new Vector3(inputActions.Player.Move.ReadValue<Vector2>().x, 0, inputActions.Player.Move.ReadValue<Vector2>().y);
             if (inputVector.x != 0 || inputVector.z != 0)
             {
                 inputVector = inputVector.normalized;
