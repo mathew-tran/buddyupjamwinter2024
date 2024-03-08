@@ -101,7 +101,9 @@ public class Player : MonoBehaviour
 
                 Vector3 movementDirection = transform.TransformDirection(inputVector);
 
-                mRigidBody.velocity = movementDirection * mSpeed;
+                Vector3 existingYVelocity = new Vector3(0, mRigidBody.velocity.y, 0);
+
+                mRigidBody.velocity = (movementDirection * mSpeed) + existingYVelocity;
             }
             else
             {
