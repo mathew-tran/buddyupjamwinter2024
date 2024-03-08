@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     private PlayerHand[] mHands;
 
-    float mSpeed = 6.0f;
+    float mSpeed = 3.0f;
 
     void Start()
     {
