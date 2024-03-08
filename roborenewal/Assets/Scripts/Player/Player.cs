@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    static float mXSensitivityStrength = 200.0f;
-    static float mYSensitivityStrength = 200.0f;
+    static float mXSensitivityStrength = 300.0f;
+    static float mYSensitivityStrength = 300.0f;
     // Start is called before the first frame update
 
     float mXRotation = 0.0f;
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     private PlayerHand[] mHands;
 
-    float mSpeed = 3.0f;
+    float mSpeed = 6.0f;
 
     void Start()
     {
