@@ -25,15 +25,27 @@ public class Player : MonoBehaviour
 
     private bool mBIsCleaning = false;
 
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mHands = GetComponentsInChildren<PlayerHand>();
         StopAnimation();
-
         mInputActions = new PlayerInputActions();
+
+
+        GameManager.GetGame().OnGameStart += OnPlayerGameStart;
+        GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
+    }
+
+    private void OnPlayerGameStart()
+    {
         mInputActions.Enable();
+    }
+    private void OnPlayerGameEnd()
+    {
+        mInputActions.Disable();
     }
 
     private void Update()

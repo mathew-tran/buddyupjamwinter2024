@@ -66,7 +66,8 @@ public class Garbage : MonoBehaviour
 
     private void SpawnCog()
     {
-        Instantiate(mCogPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        GameObject obj = Instantiate(mCogPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        obj.transform.parent = GameManager.GetCogsGroup().transform;
     }
     private void OnGarbageDeath()
     {

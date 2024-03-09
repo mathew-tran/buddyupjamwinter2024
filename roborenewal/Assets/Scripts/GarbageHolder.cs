@@ -12,6 +12,8 @@ public class GarbageHolder : MonoBehaviour
 
     public event Action<float> OnHealthUpdate;
 
+    public Action OnGarbageComplete;
+
     void Awake()
     {
 
@@ -31,6 +33,11 @@ public class GarbageHolder : MonoBehaviour
     {
         CurrentHealth -= amount;
         OnHealthUpdate(CurrentHealth);
+
+        if (CurrentHealth == 0)
+        {
+            OnGarbageComplete();
+        }
     }
 
     public float GetMaxHealth()
