@@ -21,6 +21,10 @@ public class CogHolder : MonoBehaviour
     
     private void OnTimeOutCheckCogs()
     {
+        if (GameManager.GetGame().mBIsGarbageDone == false)
+        {
+            return;
+        }
         if (mCurrentHolding > 0)
         {
             return;
@@ -44,6 +48,7 @@ public class CogHolder : MonoBehaviour
     {
         mCurrentHolding -= 1;
         OnUpdateCogHolder(mCurrentHolding);
+        mCheckCogTimer.StartTimer();
         // MT: Maybe add a particle here or something..
 
     }
