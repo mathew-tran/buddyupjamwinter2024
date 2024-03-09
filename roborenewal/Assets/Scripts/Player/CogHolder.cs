@@ -9,6 +9,34 @@ public class CogHolder : MonoBehaviour
     public int mCurrentHolding = 0;
 
     public Action<int> OnUpdateCogHolder;
+
+    public Action OnCogsComplete;
+
+    public Timer mCheckCogTimer;
+
+    private void Start()
+    {
+        mCheckCogTimer.OnTimeout += OnTimeOutCheckCogs;
+    }
+    
+    private void OnTimeOutCheckCogs()
+    {
+        if (GameManager.GetGame().mBIsGarbageDone == false)
+        {
+            return;
+        }
+        if (mCurrentHolding > 0)
+        {
+            return;
+        }
+
+        if (GameManager.GetCogsGroup().transform.childCount > 0)
+        {
+            return;
+        }
+        mCheckCogTimer.StopTimer();
+        OnCogsComplete();
+    }
     public void TakeCog(GameObject cog)
     {
         mCurrentHolding += 1;
@@ -20,6 +48,7 @@ public class CogHolder : MonoBehaviour
     {
         mCurrentHolding -= 1;
         OnUpdateCogHolder(mCurrentHolding);
+        mCheckCogTimer.StartTimer();
         // MT: Maybe add a particle here or something..
 
     }

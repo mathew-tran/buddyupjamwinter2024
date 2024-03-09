@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    static float mXSensitivityStrength = 300.0f;
-    static float mYSensitivityStrength = 300.0f;
+    static float mXSensitivityStrength = 15.0f;
+    static float mYSensitivityStrength = 15.0f;
 
     float mXRotation = 0.0f;
     float mYRotation = 0.0f;
@@ -25,15 +25,27 @@ public class Player : MonoBehaviour
 
     private bool mBIsCleaning = false;
 
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mHands = GetComponentsInChildren<PlayerHand>();
         StopAnimation();
-
         mInputActions = new PlayerInputActions();
+
+
+        GameManager.GetGame().OnGameStart += OnPlayerGameStart;
+        GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
+    }
+
+    private void OnPlayerGameStart()
+    {
         mInputActions.Enable();
+    }
+    private void OnPlayerGameEnd()
+    {
+        mInputActions.Disable();
     }
 
     private void Update()
@@ -101,7 +113,9 @@ public class Player : MonoBehaviour
 
                 Vector3 movementDirection = transform.TransformDirection(inputVector);
 
-                mRigidBody.velocity = movementDirection * mSpeed;
+                Vector3 existingYVelocity = new Vector3(0, mRigidBody.velocity.y, 0);
+
+                mRigidBody.velocity = (movementDirection * mSpeed) + existingYVelocity;
             }
             else
             {
