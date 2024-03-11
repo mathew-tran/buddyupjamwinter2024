@@ -87,7 +87,7 @@ public class Garbage : MonoBehaviour
         mAnimator.Update(0);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         mHealthComponent.TakeDamage(amount);
     }

@@ -16,6 +16,7 @@ public class HandTool : Tool
             if (hit != null)
             {
                 hit.GetComponent<Garbage>().TakeDamage(mDamage);
+                ToolTakeHit();
             }
         }
     }

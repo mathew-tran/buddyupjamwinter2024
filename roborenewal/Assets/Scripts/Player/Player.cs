@@ -52,9 +52,16 @@ public class Player : MonoBehaviour
         Look();
         Move();
 
-        if (mInputActions.Player.Clean.IsPressed() && mPlayerTool.CanUseTool())
+        if (mInputActions.Player.Clean.IsPressed() )
         {
-            mPlayerTool.StartTool();
+            if (mPlayerTool.CanUseTool())
+            {
+                mPlayerTool.StartTool();
+            }
+            else
+            {
+                mPlayerTool.StopTool();
+            }
         }
         else if (!mInputActions.Player.Clean.IsPressed()) {
             mPlayerTool.StopTool();
