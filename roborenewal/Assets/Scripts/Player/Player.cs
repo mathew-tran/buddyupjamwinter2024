@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     float mYRotation = 0.0f;
 
     public Animator mPlayerAnimator;
-    public Tool mPlayerTool;
+    private Tool mPlayerTool;
     public Camera mCamera;
     private PlayerInputActions mInputActions;
 
@@ -20,15 +20,15 @@ public class Player : MonoBehaviour
     public Rigidbody mRigidBody;
     public CogHolder mCogHolder;
 
-    private PlayerHand[] mHands;
-
     private float mSpeed = 3.0f;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        mHands = GetComponentsInChildren<PlayerHand>();
+        
+        mPlayerTool = GetComponentInChildren<Tool>();
+
         mPlayerTool.SetupTool();
         mPlayerTool.StopTool();
         mInputActions = new PlayerInputActions();

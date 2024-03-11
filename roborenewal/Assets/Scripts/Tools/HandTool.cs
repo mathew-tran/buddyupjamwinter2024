@@ -8,6 +8,18 @@ public class HandTool : Tool
 
     private Animator mAnimator;
 
+    public override void DealDamage()
+    {
+        foreach(var hand in mHands)
+        {
+            GameObject hit = hand.GetGameObjectCollision();
+            if (hit != null)
+            {
+                hit.GetComponent<Garbage>().TakeDamage(mDamage);
+            }
+        }
+    }
+
     public override void SetupTool()
     {
         mHands = GetComponentsInChildren<PlayerHand>();
@@ -27,17 +39,5 @@ public class HandTool : Tool
         mAnimator.speed = 0;
         mAnimator.Play("ANIM_HandStop", 0, 0);
         mAnimator.Update(0);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Garbage")
-        {
-            Debug.Log("Hit");
-            if (other.gameObject.GetComponent<Garbage>())
-            {
-                other.gameObject.GetComponent<Garbage>().TakeDamage(1);
-            }
-        }
     }
 }

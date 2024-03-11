@@ -10,6 +10,7 @@ public abstract class Tool : MonoBehaviour
     public int mDurability = 10;
 
     public float mAttackRate = 1.5f;
+    public int mDamage = 1;
 
     public Action OnToolBroken;
 
@@ -30,10 +31,7 @@ public abstract class Tool : MonoBehaviour
         }
     }
 
-    public void DealDamage()
-    {
-
-    }
+    public abstract void DealDamage();
 }
 
 
