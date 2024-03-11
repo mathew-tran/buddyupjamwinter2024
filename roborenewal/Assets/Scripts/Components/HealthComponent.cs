@@ -46,6 +46,7 @@ public class HealthComponent : MonoBehaviour
         }
 
         mCurrentHealth -= amount;
+        Debug.Log(name + " has taken " + amount + " damage");
 
 
         if (mCurrentHealth < 0)

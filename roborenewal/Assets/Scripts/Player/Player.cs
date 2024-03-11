@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     float mYRotation = 0.0f;
 
     public Animator mPlayerAnimator;
+    private Tool mPlayerTool;
     public Camera mCamera;
     private PlayerInputActions mInputActions;
 
@@ -19,19 +20,21 @@ public class Player : MonoBehaviour
     public Rigidbody mRigidBody;
     public CogHolder mCogHolder;
 
-    private PlayerHand[] mHands;
-
     private float mSpeed = 3.0f;
 
-    private bool mBIsCleaning = false;
-
+    public GameObject mDefaultHands;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        mHands = GetComponentsInChildren<PlayerHand>();
-        StopAnimation();
+        
+        mPlayerTool = GetComponentInChildren<Tool>();
+
+        mPlayerTool.SetupTool();
+        mPlayerTool.StopTool();
+        mPlayerTool.OnToolBroken += OnToolBroken;
+
         mInputActions = new PlayerInputActions();
 
 
@@ -39,6 +42,14 @@ public class Player : MonoBehaviour
         GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
     }
 
+    private void OnToolBroken()
+    {
+        GameObject instance = Instantiate(mDefaultHands, transform);
+        Destroy(mPlayerTool.gameObject);
+        mPlayerTool = instance.GetComponent<Tool>();
+        mPlayerTool.SetupTool();
+        mPlayerTool.StopTool();
+    }
     private void OnPlayerGameStart()
     {
         mInputActions.Enable();
@@ -53,39 +64,28 @@ public class Player : MonoBehaviour
         Look();
         Move();
 
-        if (mInputActions.Player.Clean.IsPressed() && !mBIsCleaning)
+        if (mPlayerTool == null)
         {
-            StartAnimation();
-        }
-        else if (!mInputActions.Player.Clean.IsPressed() && mBIsCleaning) {
-            StopAnimation();
-        }
-    }
-
-    void StartAnimation()
-    {
-        mBIsCleaning = true;
-        mPlayerAnimator.speed = 1;
-        mPlayerAnimator.Play("ANIM_HandSmack");
-
-        foreach (var hand in mHands) {
-            hand.SetActive(true);
+            return;
         }
 
-    }
-
-    void StopAnimation()
-    {
-        mBIsCleaning = false;
-        mPlayerAnimator.speed = 0;
-        mPlayerAnimator.Play("ANIM_HandSmack", 0, 0);
-        mPlayerAnimator.Update(0);
-
-        foreach (var hand in mHands)
+        if (mInputActions.Player.Clean.IsPressed() )
         {
-            hand.SetActive(false);
+            if (mPlayerTool.CanUseTool())
+            {
+                mPlayerTool.StartTool();
+            }
+            else
+            {
+                mPlayerTool.StopTool();
+            }
+        }
+        else if (!mInputActions.Player.Clean.IsPressed()) {
+            mPlayerTool.StopTool();
         }
     }
+
+
     void Look()
     {
         float mouseX = mInputActions.Player.Look.ReadValue<Vector2>().x * Time.deltaTime * mXSensitivityStrength;

@@ -86,14 +86,9 @@ public class Garbage : MonoBehaviour
         mAnimator.Play("ANIM_GarbageHit", 0, 0);
         mAnimator.Update(0);
     }
-    private void OnTriggerStay(Collider other)
+
+    public void TakeDamage(float amount)
     {
-        if (other.tag == "Hand")
-        {
-            if (other.gameObject.GetComponent<PlayerHand>().IsActive())
-            {
-                mHealthComponent.TakeDamage(1);
-            }
-        }
+        mHealthComponent.TakeDamage(amount);
     }
 }
