@@ -90,10 +90,12 @@ public class Garbage : MonoBehaviour
     {
         if (other.tag == "Hand")
         {
-            if (other.gameObject.GetComponent<PlayerHand>().IsActive())
-            {
-                mHealthComponent.TakeDamage(1);
-            }
+            TakeDamage(1);               
         }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        mHealthComponent.TakeDamage(1);
     }
 }
