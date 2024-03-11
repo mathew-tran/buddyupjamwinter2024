@@ -190,9 +190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10275fa980338af44b66a9cfe815728f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mDurability: 100
+  mDurability: 10
   mAttackRate: 20
-  mDamage: 0.5
+  mDamage: 5
+  bInfiniteDurability: 0
 --- !u!1 &8591684772928367938
 GameObject:
   m_ObjectHideFlags: 0

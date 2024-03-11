@@ -313,6 +313,7 @@ MonoBehaviour:
   mCamera: {fileID: 743468471774593587}
   mRigidBody: {fileID: 7172687521535504692}
   mCogHolder: {fileID: 3483891103592114069}
+  mDefaultHands: {fileID: 6033266745128765574, guid: f71e53821365ed64c9c39dd79fdd8268, type: 3}
 --- !u!1 &7026909380710875581
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
 
     private float mSpeed = 3.0f;
 
+    public GameObject mDefaultHands;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -31,6 +33,8 @@ public class Player : MonoBehaviour
 
         mPlayerTool.SetupTool();
         mPlayerTool.StopTool();
+        mPlayerTool.OnToolBroken += OnToolBroken;
+
         mInputActions = new PlayerInputActions();
 
 
@@ -38,6 +42,14 @@ public class Player : MonoBehaviour
         GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
     }
 
+    private void OnToolBroken()
+    {
+        GameObject instance = Instantiate(mDefaultHands, transform);
+        Destroy(mPlayerTool.gameObject);
+        mPlayerTool = instance.GetComponent<Tool>();
+        mPlayerTool.SetupTool();
+        mPlayerTool.StopTool();
+    }
     private void OnPlayerGameStart()
     {
         mInputActions.Enable();
@@ -51,6 +63,11 @@ public class Player : MonoBehaviour
     {
         Look();
         Move();
+
+        if (mPlayerTool == null)
+        {
+            return;
+        }
 
         if (mInputActions.Player.Clean.IsPressed() )
         {

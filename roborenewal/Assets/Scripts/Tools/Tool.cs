@@ -13,6 +13,7 @@ public abstract class Tool : MonoBehaviour
     public float mDamage = 1;
 
     public Action OnToolBroken;
+    public bool bInfiniteDurability = false;
 
     public abstract void SetupTool();
     public abstract void StartTool();
@@ -24,6 +25,10 @@ public abstract class Tool : MonoBehaviour
     }
     public void ToolTakeHit()
     {
+        if (bInfiniteDurability)
+        {
+            return;
+        }
         mDurability -= 1;
         if (mDurability <= 0)
         {
