@@ -49,7 +49,9 @@ public class Player : MonoBehaviour
         if (mPlayerTool != null)
         {
             mPlayerTool.StopTool();
+
             Destroy(mPlayerTool.gameObject);
+            mPlayerTool = null;
         }        
         mPlayerTool = instance.GetComponent<Tool>();
         instance.GetComponent<Tool>().OnToolBroken += OnToolBroken;
@@ -77,7 +79,7 @@ public class Player : MonoBehaviour
 
 
 
-        if (mPlayerTool == null)
+        if (mPlayerTool == null || mPlayerTool.IsSetup() == false)
         {
             return;
         }
