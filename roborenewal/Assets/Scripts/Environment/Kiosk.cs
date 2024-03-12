@@ -37,4 +37,19 @@ public class Kiosk : MonoBehaviour
         mCanvas.gameObject.SetActive(false);
         mBIsEnabled = false;
     }
+
+    public bool CanPurchase()
+    {
+        return true;
+    }
+
+    public void CompletePurchase()
+    {
+        Destroy(mThingToSellInstance.gameObject);
+    }
+
+    public GameObject GetTool()
+    {
+        return mThingToSell;
+    }
 }
