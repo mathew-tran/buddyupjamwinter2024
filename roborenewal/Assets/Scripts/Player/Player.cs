@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -26,12 +27,16 @@ public class Player : MonoBehaviour
 
     [SerializeField] LayerMask InteractLayerMask;
 
+    public Action OnToolChange;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
         mPlayerTool = GetComponentInChildren<Tool>();
+        GameManager.mInstance.mPlayerRef = this;
+
 
         mPlayerTool.StopTool();
         mPlayerTool.OnToolBroken += OnToolBroken;
@@ -41,6 +46,8 @@ public class Player : MonoBehaviour
 
         GameManager.GetGame().OnGameStart += OnPlayerGameStart;
         GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
+
+
     }
 
     public void ReplaceTool(GameObject newTool)
@@ -55,6 +62,7 @@ public class Player : MonoBehaviour
         }        
         mPlayerTool = instance.GetComponent<Tool>();
         instance.GetComponent<Tool>().OnToolBroken += OnToolBroken;
+        OnToolChange();
     }
     private void OnToolBroken()
     {
@@ -139,6 +147,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Tool GetTool()
+    {
+        return mPlayerTool;
+    }
     void Interact()
     {
         if (mInputActions.Player.Interact.WasPressedThisFrame())

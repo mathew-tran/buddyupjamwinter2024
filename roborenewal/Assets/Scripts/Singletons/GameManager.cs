@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public GarbageHolder mGarbageHolderRef;
     public CogHolder mCogHolderRef;
+    public Player mPlayerRef;
     public GameObject mCogs;
     private void Awake()
     {
