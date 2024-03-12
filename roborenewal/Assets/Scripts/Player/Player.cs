@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
         
         mPlayerTool = GetComponentInChildren<Tool>();
 
-        mPlayerTool.SetupTool();
         mPlayerTool.StopTool();
         mPlayerTool.OnToolBroken += OnToolBroken;
 
@@ -42,13 +41,16 @@ public class Player : MonoBehaviour
         GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
     }
 
-    private void OnToolBroken()
+    public void ReplaceTool(GameObject newTool)
     {
-        GameObject instance = Instantiate(mDefaultHands, transform);
+        GameObject instance = Instantiate(newTool, transform);
         Destroy(mPlayerTool.gameObject);
         mPlayerTool = instance.GetComponent<Tool>();
-        mPlayerTool.SetupTool();
         mPlayerTool.StopTool();
+    }
+    private void OnToolBroken()
+    {
+        ReplaceTool(mDefaultHands);
     }
     private void OnPlayerGameStart()
     {
