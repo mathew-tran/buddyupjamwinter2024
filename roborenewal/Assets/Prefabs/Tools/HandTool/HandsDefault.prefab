@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 5176625345089672393}
   - component: {fileID: 6828798124800498176}
   - component: {fileID: 8209958383844386788}
+  - component: {fileID: 3117887925300847518}
   m_Layer: 0
   m_Name: HandsDefault
   m_TagString: Untagged
@@ -194,6 +195,19 @@ MonoBehaviour:
   mAttackRate: 1
   mDamage: 5
   bInfiniteDurability: 1
+--- !u!114 &3117887925300847518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6033266745128765574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f792ffc18e165104780658ddeb11780e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mPrice: 0
 --- !u!1 &8591684772928367938
 GameObject:
   m_ObjectHideFlags: 0
