@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
         GameObject instance = Instantiate(newTool, transform);
         Destroy(mPlayerTool.gameObject);
         mPlayerTool = instance.GetComponent<Tool>();
-        mPlayerTool.StopTool();
     }
     private void OnToolBroken()
     {
