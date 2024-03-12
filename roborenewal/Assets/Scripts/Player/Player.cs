@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
     {
         Look();
         Move();
+        Pause();
 
         if (mPlayerTool == null)
         {
@@ -120,6 +121,21 @@ public class Player : MonoBehaviour
             else
             {
                 mRigidBody.velocity = new Vector3(0, mRigidBody.velocity.y, 0);
+            }
+        }
+    }
+
+    void Pause()
+    {
+        if (mInputActions.Player.Pause.WasPressedThisFrame())
+        {
+            if (!PauseMenuUI.instance.IsPaused())
+            {
+                PauseMenuUI.instance.PauseGame();
+            }
+            else
+            {
+                PauseMenuUI.instance.ResumeGame();
             }
         }
     }
