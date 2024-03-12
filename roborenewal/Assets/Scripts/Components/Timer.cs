@@ -28,6 +28,14 @@ public class Timer : MonoBehaviour
         bIsRunning = true;
     }
     
+    public float GetTimeLeft()
+    {
+        if (mProgress > 0.0f)
+        {
+            return mProgress;
+        }
+        return 0.0f;
+    }
     public void ResumeTimer()
     {
         bIsRunning = true;
