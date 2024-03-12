@@ -129,13 +129,17 @@ public class Player : MonoBehaviour
     {
         if (mInputActions.Player.Pause.WasPressedThisFrame())
         {
-            if (!PauseMenuUI.instance.IsPaused())
+            if (OptionsMenuUI.instance.IsMenuOn())
             {
-                PauseMenuUI.instance.PauseGame();
+                OptionsMenuUI.instance.CloseMenu();
+            }
+            else if (PauseMenuUI.instance.IsPaused())
+            {
+                PauseMenuUI.instance.ResumeGame();
             }
             else
             {
-                PauseMenuUI.instance.ResumeGame();
+                PauseMenuUI.instance.PauseGame();
             }
         }
     }

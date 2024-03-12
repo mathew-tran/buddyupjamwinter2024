@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PauseMenuUI : MonoBehaviour {
     public static PauseMenuUI instance;
-    private bool paused = false;
+    private bool menuOn = false;
 
     [Header("Buttons")]
     [SerializeField] private Button continueButton;
@@ -19,18 +19,22 @@ public class PauseMenuUI : MonoBehaviour {
         quitButton.onClick.AddListener(() => { });
     }
 
-    public bool IsPaused() { return paused; }
+    public bool IsPaused() { return menuOn; }
 
     public void PauseGame() {
         OpenMenu();
         Time.timeScale = 0;
-        paused = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        menuOn = true;
     }
 
     public void ResumeGame() {
         CloseMenu();
         Time.timeScale = 1;
-        paused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        menuOn = false;
     }
 
     public void OpenMenu() { foreach (Transform child in transform) child.gameObject.SetActive(true); ResetSelectedButton(); }
