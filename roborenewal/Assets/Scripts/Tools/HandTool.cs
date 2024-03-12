@@ -15,6 +15,10 @@ public class HandTool : Tool
             GameObject hit = hand.GetGameObjectCollision();
             if (hit != null)
             {
+                if (this == null)
+                {
+                    return;
+                }
                 hit.GetComponent<Garbage>().TakeDamage(mDamage);
                 ToolTakeHit();
             }

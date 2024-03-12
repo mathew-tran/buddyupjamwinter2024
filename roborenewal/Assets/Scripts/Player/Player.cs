@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -24,12 +25,18 @@ public class Player : MonoBehaviour
 
     public GameObject mDefaultHands;
 
+    [SerializeField] LayerMask InteractLayerMask;
+
+    public Action OnToolChange;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
         mPlayerTool = GetComponentInChildren<Tool>();
+        GameManager.mInstance.mPlayerRef = this;
+
 
         mPlayerTool.StopTool();
         mPlayerTool.OnToolBroken += OnToolBroken;
@@ -39,18 +46,28 @@ public class Player : MonoBehaviour
 
         GameManager.GetGame().OnGameStart += OnPlayerGameStart;
         GameManager.GetGame().OnGameEnd += OnPlayerGameEnd;
+
+
     }
 
     public void ReplaceTool(GameObject newTool)
     {
         GameObject instance = Instantiate(newTool, transform);
-        Destroy(mPlayerTool.gameObject);
+        if (mPlayerTool != null)
+        {
+            mPlayerTool.StopTool();
+
+            Destroy(mPlayerTool.gameObject);
+            mPlayerTool = null;
+        }        
         mPlayerTool = instance.GetComponent<Tool>();
-        mPlayerTool.StopTool();
+        instance.GetComponent<Tool>().OnToolBroken += OnToolBroken;
+        OnToolChange();
     }
     private void OnToolBroken()
     {
-        ReplaceTool(mDefaultHands);
+        Destroy(mPlayerTool.gameObject);
+        return;
     }
     private void OnPlayerGameStart()
     {
@@ -65,9 +82,12 @@ public class Player : MonoBehaviour
     {
         Look();
         Move();
+        Interact();
         Pause();
 
-        if (mPlayerTool == null)
+
+
+        if (mPlayerTool == null || mPlayerTool.IsSetup() == false)
         {
             return;
         }
@@ -127,6 +147,28 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Tool GetTool()
+    {
+        return mPlayerTool;
+    }
+    void Interact()
+    {
+        if (mInputActions.Player.Interact.WasPressedThisFrame())
+        {
+            GameObject obj = GetGameObjectCollision();
+            if (obj != null)
+            {
+                Kiosk kiosk = obj.GetComponent<Kiosk>();
+                if (kiosk.CanPurchase())
+                {
+                    ReplaceTool(kiosk.GetTool());
+                    kiosk.CompletePurchase();
+                }
+                Debug.Log("Attempt interact: " + obj.name);
+            }
+        }
+    }
+
     void Pause()
     {
         if (mInputActions.Player.Pause.WasPressedThisFrame())
@@ -156,5 +198,27 @@ public class Player : MonoBehaviour
             }
         }
        
+    }
+
+    public GameObject GetGameObjectCollision()
+    {
+        Debug.Log("Attempt to interact");
+        LayerMask layerMask = (1 << InteractLayerMask);
+
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * 2.0f;
+        Debug.DrawRay(transform.position, forward, Color.green);
+        RaycastHit hit;
+
+        bool bIsHit = (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 2.0f, layerMask));
+
+        if (bIsHit)
+        {
+            if (hit.rigidbody)
+            {
+                return hit.rigidbody.gameObject;
+            }
+
+        }
+        return null;
     }
 }
