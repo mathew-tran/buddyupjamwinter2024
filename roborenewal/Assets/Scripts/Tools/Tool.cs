@@ -15,6 +15,11 @@ public abstract class Tool : MonoBehaviour
     public Action OnToolBroken;
     public bool bInfiniteDurability = false;
 
+    private void Start()
+    {
+        SetupTool();
+        StopTool();
+    }
     public abstract void SetupTool();
     public abstract void StartTool();
     public abstract void StopTool();
