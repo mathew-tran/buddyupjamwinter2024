@@ -47,9 +47,15 @@ public abstract class Tool : MonoBehaviour
         mDurability -= 1;
         if (mDurability <= 0)
         {
-            OnToolBroken();
+            if (OnToolBroken != null)
+            {
+                OnToolBroken();
+            }
         }
-        OnToolUpdate();
+        if (OnToolUpdate != null)
+        {
+            OnToolUpdate();
+        }
     }
 
     public abstract void DealDamage();

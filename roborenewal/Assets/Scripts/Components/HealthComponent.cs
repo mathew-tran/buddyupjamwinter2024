@@ -53,11 +53,17 @@ public class HealthComponent : MonoBehaviour
         {
             amount += mCurrentHealth;
         }
-        OnTakeDamage(amount);
+        if (OnTakeDamage != null)
+        {
+            OnTakeDamage(amount);
+        }
         if (mCurrentHealth <= 0.0)
         {
             mbIsAlive = false;
-            OnDeath();
+            if (OnDeath != null)
+            {
+                OnDeath();
+            }
         }
     }
 }

@@ -62,7 +62,12 @@ public class Player : MonoBehaviour
         }        
         mPlayerTool = instance.GetComponent<Tool>();
         instance.GetComponent<Tool>().OnToolBroken += OnToolBroken;
-        OnToolChange();
+
+        if (OnToolChange != null)
+        {
+            OnToolChange();
+        }
+        
     }
     private void OnToolBroken()
     {
